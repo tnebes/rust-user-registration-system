@@ -8,5 +8,8 @@ Requirements:
 
 - Prompt the user to enter their name and age.
 - Validate the age input to ensure it is a valid number.
-- If the age is valid, store the user's information in a persistent data structure (e.g., a file or a database). 
-- Display a confirmation message with the user's name upon successful registration.
+- If the age is valid, store the user's information in a persistent data structure (e.g., a file or a database).
+- - Display a confirmation message with the user's name upon successful registration.
+- Add a logger that logs system events to a file.
+- Add i18n support to the system.
+- Add unit tests to the system.
