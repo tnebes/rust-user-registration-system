@@ -47,12 +47,7 @@ fn file_or_directory_exists(file_path_name: &String) -> bool {
 }
 
 pub fn write_to_file(user: &User) -> bool {
-    let json_content = read_user_file();
-    let mut users: Vec<User> = serde_json::from_str(&json_content)
-        .unwrap_or_else(|error| {
-        error!("Failed to parse json content: {:?}", error);
-        Vec::new()
-    });
+    let mut users = get_users_from_json();
     users.push(user.clone());
     let serialised_users = serde_json::to_string(&users).unwrap();
     let mut file = match OpenOptions::new().write(true).truncate(true).open(&get_file_path_name()) {
@@ -68,7 +63,17 @@ pub fn write_to_file(user: &User) -> bool {
             error!("Could not write users to json {:?}", error);
             false
         }
-    }
+    };
+}
+
+pub fn get_users_from_json() -> Vec<User> {
+    let json_content = read_user_file();
+    let users: Vec<User> = serde_json::from_str(&json_content)
+        .unwrap_or_else(|error| {
+            error!("Failed to parse json content: {:?}", error);
+            Vec::new()
+        });
+    users
 }
 
 pub fn read_user_file() -> String {
