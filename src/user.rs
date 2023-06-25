@@ -1,6 +1,8 @@
 use serde_derive::{Serialize, Deserialize};
 
 #[derive(Serialize, Deserialize)]
+#[derive(Debug)]
+#[derive(Clone)]
 pub struct User {
     pub first_name: String,
     pub last_name: String,
