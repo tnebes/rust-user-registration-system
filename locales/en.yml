@@ -1,0 +1,17 @@
+en:
+  welcome: Welcome to the User Registration App
+  thank_you_use: Thank you for using this program!
+  have_a_nice_day: Have a nice day!
+  logging_enabled: Logging enabled
+  user_invalid_age: You are not old enough to register!
+  file_integrity_fail: Please check the integrity of the user data file and try again.
+  already_registered: You are already registered!
+  thank_you: Thank you,
+  now_registered: you are now registered!
+  first_name_input: "Enter your first name:"
+  last_name_input: "Enter your last name:"
+  age_input: "Enter your age:"
+  first_name_error: First name cannot be blank.
+  last_name_error: Last name cannot be blank.
+  age_blank: Age cannot be blank.
+  age_invalid: Age must be a number

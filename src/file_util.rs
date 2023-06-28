@@ -21,6 +21,7 @@ fn get_file_path_name() -> String {
     file_path.push(FILE_NAME);
     file_path.to_string_lossy().to_string()
 }
+
 pub fn create_file() -> String {
     let file_path_name = get_file_path_name();
     let file_path = std::path::Path::new(&file_path_name);

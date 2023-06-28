@@ -6,8 +6,9 @@ use env_logger;
 use log::{error, info, warn};
 
 use user::User;
-
-use crate::file_util::{get_users_from_json};
+use file_util::get_users_from_json;
+use rust_i18n::t;
+use rust_user_registration_system::_rust_i18n_translate;
 
 mod user;
 mod file_util;
@@ -16,19 +17,20 @@ mod print_util;
 const MIN_AGE: u32 = 18;
 
 fn main() {
+    // rust_i18n::set_locale("de");
     initialise_logger();
     print_util::print_header();
     let user = get_user_from_input();
     if !is_user_age_valid(&user) {
         warn!("{:?} is not old enough to register", user);
-        println!("You are not old enough to register!");
+        println!("{}", t!("user_invalid_age"));
         return;
     }
     if !register_user(&user) {
-        println!("Thank you for using this program!");
+        println!("{}", t!("thank_you_use"));
         exit(0);
     }
-    println!("Have a nice day.");
+    println!("{}", t!("have_a_nice_day"));
 }
 
 fn initialise_logger() {
@@ -44,7 +46,7 @@ fn register_user(user: &User) -> bool {
         let file_name = file_util::create_file();
         if file_name.is_empty() {
             error!("Failed to create file at {}", file_name);
-            println!("Please check the integrity of the user data file and try again.");
+            println!("{}", t!("file_integrity_fail"));
             return false;
         }
         info!("Created file: {}", file_name);
@@ -52,17 +54,17 @@ fn register_user(user: &User) -> bool {
 
     if user_exists(user) {
         info!("{:?} already exists", user);
-        println!("You are already registered!");
+        println!("{}", t!("already_registered"));
         return false;
     }
 
     if !file_util::write_to_file(user) {
         error!("Failed to write to file");
-        println!("Please check the integrity of the user data file and try again.");
+        println!("{}", t!("file_integrity_fail"));
         return false;
     }
 
-    println!("Thank you, {}, you are now registered!", user.first_name);
+    println!("{} {} {}", t!("thank_you"), user.first_name, t!("now_registered"));
     true
 }
 
@@ -83,24 +85,24 @@ fn get_user_from_input() -> User {
             age: 0,
         };
 
-        user.first_name = get_input("Enter your first name:");
+        user.first_name = get_input(t!("first_name_input").as_str());
         if user.first_name.is_empty() {
             error!("First name cannot be blank");
-            println!("First name cannot be blank.");
+            println!("{}", t!("first_name_error"));
             continue;
         }
 
-        user.last_name = get_input("Enter your last name:");
+        user.last_name = get_input(t!("last_name_input").as_str());
         if user.last_name.is_empty() {
             error!("Last name cannot be blank");
-            println!("Last name cannot be blank.");
+            println!("{}", t!("last_name_error"));
             continue;
         }
 
-        let age_string = get_input("Enter your age:");
+        let age_string = get_input(t!("age_input").as_str());
         if age_string.is_empty() {
             error!("Age cannot be blank");
-            println!("Age cannot be blank.");
+            println!("{}", t!("age_blank"));
             continue;
         }
 
@@ -110,7 +112,7 @@ fn get_user_from_input() -> User {
             return user;
         } else {
             error!("Age must be a number");
-            println!("Age must be a number.");
+            println!("{}", t!("age_invalid"));
             continue;
         }
     }
